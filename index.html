@@ -16,9 +16,9 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.5.1/css/all.min.css" crossorigin="anonymous" media="print" onload="this.media='all'">
 <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.5.1/css/all.min.css"></noscript>
 
-<!-- MONETAG setup — show_10840764 function detection -->
+<!-- MONETAG setup — show_10866695 function detection -->
 <script>
-// MONETAG state — polling for show_10840764 availability
+// MONETAG state — polling for show_10866695 availability
 window._MONETAG_READY = false;
 window._MONETAG_QUEUE = [];
 // Listen for the inject event from the bottom script
@@ -751,8 +751,8 @@ select.form-input option{background:#050d1a;color:#fff}
 <!-- TOAST -->
 <div id="toast"></div>
 
-<!-- MONETAG SCRIPT TAG — zone 10840764 -->
-<script src='//libtl.com/sdk.js' data-zone='10840764' data-sdk='show_10840764'></script>
+<!-- MONETAG SCRIPT TAG — zone 10866695 -->
+<script src='//libtl.com/sdk.js' data-zone='10866695' data-sdk='show_10866695'></script>
 
 <script>
 'use strict';
@@ -881,7 +881,7 @@ function sfx(n){
 }
 
 // ═══════════════════════════════════════════════════════════════
-//  MONETAG AD ENGINE — Zone 10840764
+//  MONETAG AD ENGINE — Zone 10866695
 // ═══════════════════════════════════════════════════════════════
 const MONETAG = {
   _pageLoaded: false,
@@ -908,10 +908,10 @@ const MONETAG = {
     let polls = 0;
     const poll = setInterval(() => {
       polls++;
-      if (typeof window.show_10840764 === 'function') {
+      if (typeof window.show_10866695 === 'function') {
         clearInterval(poll);
         if (!this._sdkReady) {
-          console.log('[MONETAG] show_10840764 detected via polling after ' + (polls*500) + 'ms');
+          console.log('[MONETAG] show_10866695 detected via polling after ' + (polls*500) + 'ms');
           this._sdkReady = true;
           this._flushQueue();
         }
@@ -921,7 +921,7 @@ const MONETAG = {
   },
 
   _check() {
-    if (typeof window.show_10840764 === 'function') {
+    if (typeof window.show_10866695 === 'function') {
       this._sdkReady = true;
       this._flushQueue();
     }
@@ -933,16 +933,16 @@ const MONETAG = {
   },
 
   _isAvailable() {
-    return typeof window.show_10840764 === 'function';
+    return typeof window.show_10866695 === 'function';
   },
 
   _callAd() {
     return new Promise((resolve, reject) => {
       const attempt = () => {
         if (this._isAvailable()) {
-          console.log('[MONETAG] Calling show_10840764()');
+          console.log('[MONETAG] Calling show_10866695()');
           try {
-            const adCall = window.show_10840764();
+            const adCall = window.show_10866695();
             if (adCall && typeof adCall.then === 'function') {
               adCall.then(() => { console.log('[MONETAG] Ad completed successfully'); resolve(); })
                     .catch(err => { console.warn('[MONETAG] Ad failed:', err); reject(err); });
@@ -954,8 +954,8 @@ const MONETAG = {
             console.warn('[MONETAG] Ad failed:', err); reject(err);
           }
         } else if (this._pageLoaded) {
-          console.warn('[MONETAG] show_10840764 not available — fallback');
-          reject(new Error('show_10840764 unavailable'));
+          console.warn('[MONETAG] show_10866695 not available — fallback');
+          reject(new Error('show_10866695 unavailable'));
         } else {
           console.log('[MONETAG] Queuing ad call until page load');
           this._pendingQueue.push(attempt);
@@ -2052,7 +2052,7 @@ window.addEventListener('resize',()=>{if(game&&game.state==='playing')resizeCanv
 // ─── BOOT ─────────────────────────────────────────────────────
 load();
 runLoader();
-console.log('[BOOT] Shadow Runner v7.0 — Monetag zone 10840764 + Font Awesome + Telegram Bot ready');
+console.log('[BOOT] Shadow Runner v7.0 — Monetag zone 10866695 + Font Awesome + Telegram Bot ready');
 </script>
 
 </body>
