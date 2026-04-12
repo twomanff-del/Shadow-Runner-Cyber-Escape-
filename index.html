@@ -8,23 +8,27 @@
 <!-- Telegram Mini App SDK (Required to fetch user data) -->
 <script src="https://telegram.org/js/telegram-web-app.js"></script>
 
-<!-- RichAds (Telegram Ads) Integration -->
-<script src="https://richinfo.co/richpartners/telegram/js/tg-ob.js"></script>
-<script>
-  window.TelegramAdsController = new TelegramAdsController();
-  window.TelegramAdsController.initialize({
-    pubId: "",
-    appId: "6952",
-  });
-</script>
-
 <!-- Google Fonts -->
 <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700;900&family=Exo+2:wght@300;400;600;700&display=swap" rel="stylesheet">
-<!-- Font Awesome 6 Free -->
+<!-- Font Awesome 6 Free — NO integrity hash to avoid CSP blocks in Telegram Mini App -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer">
 <!-- jsDelivr fallback -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.5.1/css/all.min.css" crossorigin="anonymous" media="print" onload="this.media='all'">
 <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.5.1/css/all.min.css"></noscript>
+
+<!-- MONETAG setup — show_10840764 function detection -->
+<script>
+// MONETAG state — polling for show_10840764 availability
+window._MONETAG_READY = false;
+window._MONETAG_QUEUE = [];
+// Listen for the inject event from the bottom script
+document.addEventListener('monetag:ready', function(){
+  window._MONETAG_READY = true;
+  console.log('[MONETAG] Ready event caught');
+  window._MONETAG_QUEUE.forEach(function(fn){ try{fn();}catch(e){} });
+  window._MONETAG_QUEUE = [];
+});
+</script>
 
 <style>
 :root{
@@ -142,6 +146,20 @@ body{font-family:'Exo 2',sans-serif;color:#fff;display:flex;align-items:center;j
 .streak-title{font-size:12px;font-weight:700;color:var(--y)}
 .streak-sub{font-size:9px;color:rgba(255,255,255,.32);margin-top:2px}
 .streak-badge{font-family:'Orbitron',monospace;font-size:11px;font-weight:700;color:var(--y);text-shadow:0 0 9px var(--y)}
+
+/* ── MISSIONS (QUESTS) ── */
+.ms-card{width:100%;background:var(--glass);border:1px solid var(--glb);border-radius:12px;padding:13px;margin-bottom:8px}
+.ms-card.done{border-color:rgba(0,255,136,.26);background:rgba(0,255,136,.03)}
+.ms-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
+.ms-name{font-size:12px;font-weight:700;display:flex;align-items:center;gap:7px}
+.ms-name i{font-size:13px;color:var(--c)}
+.ms-reward{font-family:'Orbitron',monospace;font-size:10px;color:var(--y)}
+.ms-pw{height:4px;background:rgba(255,255,255,.07);border-radius:2px;overflow:hidden;margin-bottom:4px}
+.ms-pb{height:100%;background:linear-gradient(90deg,var(--c),var(--g));border-radius:2px;transition:width .5s}
+.ms-lbl{font-size:9px;color:rgba(255,255,255,.26)}
+.ms-claim-btn{display:none;margin-top:9px;padding:7px 13px;background:rgba(0,255,136,.09);border:1px solid rgba(0,255,136,.26);border-radius:8px;font-size:9px;font-family:'Orbitron',monospace;letter-spacing:2px;color:var(--g);cursor:pointer;align-items:center;gap:5px}
+.ms-card.done .ms-claim-btn{display:inline-flex}
+.ms-card.done .ms-claim-btn i{font-size:11px}
 
 /* ── BANNER AD ── */
 .banner-ad-slot{width:100%;min-height:52px;background:rgba(0,0,0,.2);border:1px dashed rgba(0,245,255,.08);border-radius:10px;margin-bottom:10px;overflow:hidden;display:flex;align-items:center;justify-content:center}
@@ -267,20 +285,6 @@ body{font-family:'Exo 2',sans-serif;color:#fff;display:flex;align-items:center;j
 .earn-btn:disabled{opacity:.4;cursor:default;transform:none}
 .earn-btn i{font-size:13px}
 
-/* ── MISSIONS (QUESTS) ── */
-.ms-card{width:100%;background:var(--glass);border:1px solid var(--glb);border-radius:12px;padding:13px;margin-bottom:8px}
-.ms-card.done{border-color:rgba(0,255,136,.26);background:rgba(0,255,136,.03)}
-.ms-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
-.ms-name{font-size:12px;font-weight:700;display:flex;align-items:center;gap:7px}
-.ms-name i{font-size:13px;color:var(--c)}
-.ms-reward{font-family:'Orbitron',monospace;font-size:10px;color:var(--y)}
-.ms-pw{height:4px;background:rgba(255,255,255,.07);border-radius:2px;overflow:hidden;margin-bottom:4px}
-.ms-pb{height:100%;background:linear-gradient(90deg,var(--c),var(--g));border-radius:2px;transition:width .5s}
-.ms-lbl{font-size:9px;color:rgba(255,255,255,.26)}
-.ms-claim-btn{display:none;margin-top:9px;padding:7px 13px;background:rgba(0,255,136,.09);border:1px solid rgba(0,255,136,.26);border-radius:8px;font-size:9px;font-family:'Orbitron',monospace;letter-spacing:2px;color:var(--g);cursor:pointer;align-items:center;gap:5px}
-.ms-card.done .ms-claim-btn{display:inline-flex}
-.ms-card.done .ms-claim-btn i{font-size:11px}
-
 /* ── DASHBOARD ── */
 .dash-header-card{background:linear-gradient(135deg,rgba(0,245,255,.08),rgba(155,0,255,.08));border:1px solid rgba(0,245,255,.15);border-radius:16px;padding:20px;margin-bottom:12px;text-align:center}
 .dh-user{font-size:11px;color:rgba(255,255,255,.35);letter-spacing:2px;margin-bottom:4px}
@@ -342,13 +346,13 @@ select.form-input option{background:#050d1a;color:#fff}
 .wr-badge{font-size:8px;letter-spacing:2px;padding:2px 7px;border-radius:6px;display:inline-block;margin-top:3px}
 .wr-badge.pending{background:rgba(255,230,0,.1);color:var(--y)}.wr-badge.approved{background:rgba(0,255,136,.1);color:var(--g)}.wr-badge.rejected{background:rgba(255,0,110,.1);color:var(--p)}
 
-/* ── AD OVERLAY — Reward UI ── */
+/* ── AD OVERLAY — Professional Monetag UI ── */
 #ad-overlay{position:absolute;inset:0;z-index:200;background:rgba(0,0,0,.97);display:flex;flex-direction:column;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .3s}
 #ad-overlay.on{opacity:1;pointer-events:all}
 .ao-card{background:linear-gradient(165deg,rgba(5,13,26,.99),rgba(2,8,20,.99));border:1px solid rgba(0,245,255,.18);border-radius:22px;padding:28px 24px;width:300px;text-align:center;box-shadow:0 0 60px rgba(0,245,255,.07),0 20px 60px rgba(0,0,0,.5)}
-.ao-ad-badge{display:inline-flex;align-items:center;gap:6px;background:rgba(155,0,255,.12);border:1px solid rgba(155,0,255,.25);border-radius:20px;padding:5px 13px;margin-bottom:16px}
-.ao-ad-badge i{font-size:11px;color:#bf00ff}
-.ao-ad-badge span{font-size:8px;letter-spacing:3px;color:rgba(155,0,255,.8);font-family:'Orbitron',monospace}
+.ao-monetag-badge{display:inline-flex;align-items:center;gap:6px;background:rgba(155,0,255,.12);border:1px solid rgba(155,0,255,.25);border-radius:20px;padding:5px 13px;margin-bottom:16px}
+.ao-monetag-badge i{font-size:11px;color:#bf00ff}
+.ao-monetag-badge span{font-size:8px;letter-spacing:3px;color:rgba(155,0,255,.8);font-family:'Orbitron',monospace}
 .ao-title{font-family:'Orbitron',monospace;font-size:16px;font-weight:700;letter-spacing:3px;color:var(--c);text-shadow:0 0 14px rgba(0,245,255,.4);margin-bottom:4px}
 .ao-desc{font-size:10px;color:rgba(255,255,255,.35);margin-bottom:16px}
 .ao-reward-box{background:rgba(255,230,0,.07);border:1px solid rgba(255,230,0,.18);border-radius:12px;padding:12px;margin-bottom:18px}
@@ -429,7 +433,7 @@ select.form-input option{background:#050d1a;color:#fff}
   <div class="ls2">Cyber Escape v7.0</div>
   <div class="lbw"><div class="lbf" id="lbar"></div></div>
   <div class="lpct" id="lpct">0%</div>
-  <div class="ltip" id="ltip">Loading Reward Ads...</div>
+  <div class="ltip" id="ltip">Loading Monetag Ads...</div>
 </div>
 
 <!-- MENU -->
@@ -441,7 +445,7 @@ select.form-input option{background:#050d1a;color:#fff}
       <div class="ibtn" id="sound-btn" onclick="sfx('click');toggleSound()" title="Sound">
         <i class="fa-solid fa-volume-high hdr-icon" id="sound-icon"></i>
       </div>
-      <div class="ibtn" onclick="sfx('click');openMissions()" title="Missions">
+      <div class="ibtn" onclick="sfx('click');openMissions()" title="Quests">
         <i class="fa-solid fa-trophy hdr-icon"></i>
       </div>
     </div>
@@ -602,7 +606,7 @@ select.form-input option{background:#050d1a;color:#fff}
     <button class="ad-btn" id="ad-double-btn" onclick="adDoubleCoins()">
       <div class="ad-ico-wrap"><i class="fa-solid fa-circle-play"></i></div>
       <div class="ad-txt">
-        <div class="ad-t">Watch Ad &middot; Double Your Coins</div>
+        <div class="ad-t">Watch Monetag Ad &middot; Double Your Coins</div>
         <div class="ad-a" id="ad-double-label">2× BONUS</div>
       </div>
       <i class="fa-solid fa-chevron-right" style="color:rgba(255,255,255,.26);font-size:12px"></i>
@@ -647,7 +651,7 @@ select.form-input option{background:#050d1a;color:#fff}
 <!-- MISSIONS -->
 <div class="screen" id="missions-screen">
   <div class="shop-header">
-    <div class="sh-title">MISSIONS</div>
+    <div class="sh-title">QUESTS</div>
     <div class="xbtn" onclick="sfx('click');closeMissions()"><i class="fa-solid fa-xmark"></i></div>
   </div>
   <div class="missions-body" id="missions-body"></div>
@@ -724,12 +728,12 @@ select.form-input option{background:#050d1a;color:#fff}
   </div>
 </div>
 
-<!-- AD OVERLAY — Reward UI -->
+<!-- AD OVERLAY — Professional Monetag UI -->
 <div id="ad-overlay">
   <div class="ao-card">
-    <div class="ao-ad-badge">
+    <div class="ao-monetag-badge">
       <i class="fa-solid fa-circle-play"></i>
-      <span>SPONSORED AD</span>
+      <span>MONETAG AD</span>
     </div>
     <div class="ao-title" id="ao-title">WATCH &amp; EARN</div>
     <div class="ao-desc" id="ao-desc">Complete the ad to receive your reward</div>
@@ -746,6 +750,9 @@ select.form-input option{background:#050d1a;color:#fff}
 
 <!-- TOAST -->
 <div id="toast"></div>
+
+<!-- MONETAG SCRIPT TAG — zone 10840764 -->
+<script src='//libtl.com/sdk.js' data-zone='10840764' data-sdk='show_10840764'></script>
 
 <script>
 'use strict';
@@ -874,38 +881,91 @@ function sfx(n){
 }
 
 // ═══════════════════════════════════════════════════════════════
-//  RICHADS AD ENGINE
+//  MONETAG AD ENGINE — Zone 10840764
 // ═══════════════════════════════════════════════════════════════
-const RICHADS = {
+const MONETAG = {
+  _pageLoaded: false,
+  _sdkReady: false,
+  _pendingQueue: [],
+  AD_DURATION: 30,
+
+  init() {
+    if (document.readyState === 'complete') {
+      this._pageLoaded = true;
+      this._check();
+    } else {
+      window.addEventListener('load', () => {
+        this._pageLoaded = true;
+        console.log('[MONETAG] Page fully loaded');
+        this._check();
+      });
+    }
+    document.addEventListener('monetag:ready', () => {
+      console.log('[MONETAG] SDK ready event received');
+      this._sdkReady = true;
+      this._flushQueue();
+    });
+    let polls = 0;
+    const poll = setInterval(() => {
+      polls++;
+      if (typeof window.show_10840764 === 'function') {
+        clearInterval(poll);
+        if (!this._sdkReady) {
+          console.log('[MONETAG] show_10840764 detected via polling after ' + (polls*500) + 'ms');
+          this._sdkReady = true;
+          this._flushQueue();
+        }
+      }
+      if (polls > 30) clearInterval(poll);
+    }, 500);
+  },
+
+  _check() {
+    if (typeof window.show_10840764 === 'function') {
+      this._sdkReady = true;
+      this._flushQueue();
+    }
+  },
+
+  _flushQueue() {
+    const q = this._pendingQueue.splice(0);
+    q.forEach(fn => { try{ fn(); }catch(e){} });
+  },
+
+  _isAvailable() {
+    return typeof window.show_10840764 === 'function';
+  },
+
   _callAd() {
     return new Promise((resolve, reject) => {
-      try {
-        if (window.TelegramAdsController && typeof window.TelegramAdsController.show === 'function') {
-          console.log('[RICHADS] Calling show()');
-          const adCall = window.TelegramAdsController.show();
-          if (adCall && typeof adCall.then === 'function') {
-            adCall.then(() => { 
-              console.log('[RICHADS] Ad completed successfully'); 
-              resolve(); 
-            }).catch(err => { 
-              console.warn('[RICHADS] Ad failed:', err); 
-              reject(err); 
-            });
-          } else {
-            console.log('[RICHADS] Ad shown (no promise returned)');
-            resolve();
+      const attempt = () => {
+        if (this._isAvailable()) {
+          console.log('[MONETAG] Calling show_10840764()');
+          try {
+            const adCall = window.show_10840764();
+            if (adCall && typeof adCall.then === 'function') {
+              adCall.then(() => { console.log('[MONETAG] Ad completed successfully'); resolve(); })
+                    .catch(err => { console.warn('[MONETAG] Ad failed:', err); reject(err); });
+            } else {
+              console.log('[MONETAG] Ad shown (no promise returned)');
+              resolve();
+            }
+          } catch(err) {
+            console.warn('[MONETAG] Ad failed:', err); reject(err);
           }
+        } else if (this._pageLoaded) {
+          console.warn('[MONETAG] show_10840764 not available — fallback');
+          reject(new Error('show_10840764 unavailable'));
         } else {
-          console.warn('[RICHADS] TelegramAdsController not available');
-          reject(new Error('RichAds not ready'));
+          console.log('[MONETAG] Queuing ad call until page load');
+          this._pendingQueue.push(attempt);
         }
-      } catch(err) {
-        console.warn('[RICHADS] Ad failed to execute:', err);
-        reject(err);
-      }
+      };
+      attempt();
     });
-  }
+  },
 };
+MONETAG.init();
 
 // ═══════════════════════════════════════════════════════════════
 //  AD SYSTEM — Reward gating
@@ -928,7 +988,7 @@ const ADS = {
   showSpinner(v) { this.el('ao-spinner').style.display = v?'block':'none'; },
   setProgress(pct, anim=false) {
     const el = this.el('ao-prog');
-    el.style.transition = anim ? `width 30s linear` : 'none';
+    el.style.transition = anim ? `width ${MONETAG.AD_DURATION}s linear` : 'none';
     requestAnimationFrame(() => { el.style.width = pct+'%'; });
   },
   openOverlay()  { this.el('ad-overlay').classList.add('on'); },
@@ -970,11 +1030,11 @@ const ADS = {
     sfx('adstart');
     console.log(`[ADS] show() placement=${placement} reward=${rewardText}`);
 
-    // Try RichAds
-    RICHADS._callAd()
+    // Try Monetag first
+    MONETAG._callAd()
       .then(() => { this._grant(); })
       .catch(err => {
-        console.warn('[ADS] RichAds failed, starting fallback timer:', err.message);
+        console.warn('[ADS] Monetag failed, starting fallback timer:', err.message);
         this._fallback();
       });
 
@@ -989,7 +1049,7 @@ const ADS = {
     this._elapsed = 0;
     this._countdownId = setInterval(() => {
       this._elapsed++;
-      const rem = 30 - this._elapsed;
+      const rem = MONETAG.AD_DURATION - this._elapsed;
       if (rem > 0) {
         this.setTimer(`Ad completes in ${rem}s`);
         if (rem === 10) this.setStatus('<i class="fa-solid fa-hourglass-half"></i> Almost done...');
@@ -1031,7 +1091,7 @@ const ADS = {
 // ═══════════════════════════════════════════════════════════════
 const ADS_CONFIG = {
   MIN_RUN_MS:8000,
-  COOLDOWN_MS:15000, MAX_ADS_PER_DAY:30,
+  COOLDOWN_MS:15000, MAX_ADS_PER_DAY:5,
 };
 function _ensureDay() {
   const today = new Date().toDateString();
@@ -1124,11 +1184,11 @@ const MISSIONS=[
 
 const DAILY_REWARDS=[50,75,100,150,200,300,500];
 const WITHDRAW_METHODS=[
-  {id:'bkash',  name:'bKash',   fa:'fa-mobile-screen-button', placeholder:'01XXXXXXXXX'},
+  {id:'bkash',  name:'BKash',   fa:'fa-mobile-screen-button', placeholder:'01XXXXXXXXX'},
   {id:'nagad',  name:'Nagad',   fa:'fa-building-columns',     placeholder:'01XXXXXXXXX'},
   {id:'binance',name:'Binance', fa:'fa-bitcoin-sign',         placeholder:'Binance wallet address'},
 ];
-const MIN_WITHDRAW_GEMS=100, COINS_PER_GEM=100;
+const MIN_WITHDRAW_GEMS=10, COINS_PER_GEM=100;
 
 // ═══════════════════════════════════════════════════════════════
 //  SCREENS & TOAST
@@ -1148,7 +1208,7 @@ function toast(msg,type='',dur=2600){
 // ═══════════════════════════════════════════════════════════════
 //  LOADER
 // ═══════════════════════════════════════════════════════════════
-const TIPS=['Loading Reward Ads...','Initializing reward engine...','Connecting to Telegram bot...','Calibrating economy core...'];
+const TIPS=['Loading Monetag Ads...','Initializing reward engine...','Connecting to Telegram bot...','Calibrating economy core...'];
 function runLoader(){
   let p=0,ti=0;
   const bar=document.getElementById('lbar'),pct=document.getElementById('lpct'),tip=document.getElementById('ltip');
@@ -1203,7 +1263,7 @@ function startPreMatchAd(){
   const btn=document.getElementById('pm-watch-btn');btn.disabled=true;
   const ok=ADS.show('PRE_MATCH','Match Access',()=>{
     btn.disabled=false;ST.lastMatchStart=Date.now();ST.pendingDoubleCoins=0;save();startGame();
-  }, false); 
+  }, false); // false = NO LIMITS
   if(!ok)btn.disabled=false;
 }
 
@@ -1218,19 +1278,19 @@ function adDoubleCoins(){
   const amt=ST.pendingDoubleCoins;
   const ok=ADS.show('DOUBLE_COINS',`2x ${amt} coins bonus`,()=>{
     btn.disabled=true;
-    ST.coins+=amt; 
+    ST.coins+=amt; // Give them the actual amount (doubling what they already got)
     addTx('coins','Double Coins Bonus',amt,'coins');
     ST.pendingDoubleCoins=0;
     save();
     updateMenuUI();
     document.getElementById('go-coins').textContent='+'+(amt*2)+' (Total)';
     sfx('reward');showRewardPopup('coins','DOUBLED!','+'+amt,'Coins doubled!');
-  }, false); 
+  }, false); // false = NO LIMITS
   if(!ok)btn.disabled=false;
 }
 
 // ═══════════════════════════════════════════════════════════════
-//  SHOP AD REWARDS 
+//  SHOP AD REWARDS (Only these use limits)
 // ═══════════════════════════════════════════════════════════════
 function adEarnGems(){
   return ADS.show('EARN_GEMS','+2 Gems',()=>{
@@ -1279,7 +1339,7 @@ function renderShopTab(){
   else {
     renderShopEarnTab();
     earnTimerInterval = setInterval(updateEarnTimers, 1000);
-    updateEarnTimers(); 
+    updateEarnTimers(); // call immediately to populate
   }
 }
 function renderShopUpgrades(){
@@ -1314,13 +1374,13 @@ function renderShopChars(){
 function renderShopEarnTab(){
   _ensureDay();
   const rows=[
-    {fa:'fa-gem',name:'Earn Gems',desc:'Watch sponsored ad — receive 2 gems',reward:'+2 gems',fn:'adEarnGems()'},
-    {fa:'fa-coins',name:'Earn Coins',desc:'Watch sponsored ad — receive 150 coins',reward:'+150 coins',fn:'adEarnCoins()'},
-    {fa:'fa-shield-halved',name:'Shield Repair',desc:'Watch sponsored ad — restore one shield',reward:'+1 shield',fn:'adEarnShield()'},
+    {fa:'fa-gem',name:'Earn Gems',desc:'Watch Monetag ad — receive 2 gems',reward:'+2 gems',fn:'adEarnGems()'},
+    {fa:'fa-coins',name:'Earn Coins',desc:'Watch Monetag ad — receive 150 coins',reward:'+150 coins',fn:'adEarnCoins()'},
+    {fa:'fa-shield-halved',name:'Shield Repair',desc:'Watch Monetag ad — restore one shield',reward:'+1 shield',fn:'adEarnShield()'},
   ];
   document.getElementById('shop-body').innerHTML=`
     <div style="font-size:9px;letter-spacing:3px;color:rgba(155,0,255,.7);margin-bottom:10px;font-family:'Orbitron',monospace;display:flex;align-items:center;gap:7px">
-      <i class="fa-solid fa-circle-play" style="font-size:13px"></i> SPONSORED REWARDED ADS
+      <i class="fa-solid fa-circle-play" style="font-size:13px"></i> MONETAG REWARDED ADS
     </div>
     ${rows.map(r=>`
     <div class="earn-row">
@@ -1840,9 +1900,6 @@ function doGameOver(){
   if(score>ST.bestScore)ST.bestScore=score;
   if(game.maxCombo>ST.maxCombo)ST.maxCombo=game.maxCombo;
   addTx('coins',won?'Match Won':'Match Lost',actualCoins,'coins');
-  
-  progM('runs10',1);progM('total5000',score); // Missing logic added back!
-  
   save();sfx('gameover');
   ST.pendingDoubleCoins=actualCoins>0?actualCoins:0;save();
   setTimeout(()=>{
@@ -1995,7 +2052,7 @@ window.addEventListener('resize',()=>{if(game&&game.state==='playing')resizeCanv
 // ─── BOOT ─────────────────────────────────────────────────────
 load();
 runLoader();
-console.log('[BOOT] Shadow Runner v7.0 — RichAds (Telegram Ads) + Font Awesome + Quests Restored + Live Timer Ready');
+console.log('[BOOT] Shadow Runner v7.0 — Monetag zone 10840764 + Font Awesome + Telegram Bot ready');
 </script>
 
 </body>
